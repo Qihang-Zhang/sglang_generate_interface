@@ -1,0 +1,1 @@
+uv run -m sglang.launch_server --model Qwen/Qwen3-0.6B --host 0.0.0.0 --port 30000
