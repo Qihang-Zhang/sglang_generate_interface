@@ -52,10 +52,10 @@ if __name__ == "__main__":
         
     full_logprobs = data["meta_info"]["input_top_logprobs"]
     
-    # for i in range(1, len(full_logprobs)):
-    #     logprob = [logprobs[0] for logprobs in full_logprobs[i]]
-    #     prob = [exp(lp) for lp in logprob]
-    #     print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
+    for i in range(1, len(full_logprobs)):
+        logprob = [logprobs[0] for logprobs in full_logprobs[i]]
+        prob = [exp(lp) for lp in logprob]
+        print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
         
-    #     all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
-    #     print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
+        all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
+        print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
