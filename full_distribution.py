@@ -18,13 +18,14 @@ def check_if_all_index_included(full_logprobs, vocab_size):
 if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
     vocab_size = tokenizer.vocab_size
+    temperature = 1.0
     url = "http://localhost:30000/generate"
     
     payload = {
         "model": "llama3.1-8b",
         "text": "The capital of France is",
         "sampling_params": {
-            "temperature": 0.75,
+            "temperature": temperature,
             "max_new_tokens": 0,
             "ignore_eos": False,
         },
@@ -46,14 +47,15 @@ if __name__ == "__main__":
         token = tokenizer.decode([token_id])
         print(f"Token ID: {token_id}, {token}")
         
+    pprint(f"Temperature: {temperature}")
+    pprint(data["meta_info"]["input_token_logprobs"])
+        
     full_logprobs = data["meta_info"]["input_top_logprobs"]
     
-    # print("Full distribution for input tokens:", full_logprobs)
-
-    for i in range(1, len(full_logprobs)):
-        logprob = [logprobs[0] for logprobs in full_logprobs[i]]
-        prob = [exp(lp) for lp in logprob]
-        print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
+    # for i in range(1, len(full_logprobs)):
+    #     logprob = [logprobs[0] for logprobs in full_logprobs[i]]
+    #     prob = [exp(lp) for lp in logprob]
+    #     print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
         
-        all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
-        print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
+    #     all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
+    #     print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
