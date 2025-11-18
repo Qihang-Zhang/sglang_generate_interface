@@ -7,12 +7,13 @@ def check_if_all_index_included(full_logprobs, vocab_size):
     index_list = [logprob[1] for logprob in full_logprobs]
     
     return_value = True
+    miss_indexes = []
     for i in range(vocab_size):
         if i not in index_list:
-            print(f"Missing index: {i}")
+            miss_indexes.append(i)
             return_value = False
     
-    return return_value
+    return return_value, miss_indexes
 
 if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
@@ -54,5 +55,5 @@ if __name__ == "__main__":
         prob = [exp(lp) for lp in logprob]
         print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
         
-        all_included = check_if_all_index_included(full_logprobs[i], vocab_size)
-        print(f"All indices included: {all_included}")
+        all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
+        print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
