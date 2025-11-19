@@ -17,7 +17,8 @@ def check_if_all_index_included(full_logprobs, vocab_size):
 
 if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained("meta-llama/Meta-Llama-3.1-8B-Instruct")
-    vocab_size = tokenizer.vocab_size
+    vocab_size = len(tokenizer)
+    print(vocab_size, tokenizer.vocab_size)
     temperature = 1.0
     url = "http://localhost:30000/generate"
     
@@ -58,4 +59,4 @@ if __name__ == "__main__":
         print(f"Token Position Index: {i}, Probabilities Sum: {sum(prob)}")
         
         all_included, miss_indexes = check_if_all_index_included(full_logprobs[i], vocab_size)
-        print(f"All indices included: {all_included}, Missing indices: {miss_indexes}")
+        print(f"All indices included: {all_included}, Missing indices: {miss_indexes}, number of missing indices: {len(miss_indexes)}")
